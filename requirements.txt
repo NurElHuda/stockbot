@@ -25,3 +25,4 @@ django-lifecycle==0.8.0
 django-cors-headers==3.6.0
 mysqlclient==2.0.1 # https://github.com/PyMySQL/mysqlclient-python
 django-environ==0.4.5
+drf-yasg==1.20.0

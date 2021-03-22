@@ -74,7 +74,6 @@ DJANGO_APPS = [
     "django.contrib.admin",
     "django.forms",
     "drf_yasg",
-    "guardian",
     "corsheaders",
     "whitenoise.runserver_nostatic",
     "crispy_forms",
@@ -103,7 +102,6 @@ MIGRATION_MODULES = {"sites": "app_src.contrib.sites.migrations"}
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "guardian.backends.ObjectPermissionBackend"
     # "allauth.account.auth_backends.AuthenticationBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
