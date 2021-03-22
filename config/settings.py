@@ -10,7 +10,6 @@ APPS_DIR = ROOT_DIR / "app_src"
 env = environ.Env()
 env.read_env(str(ROOT_DIR / ".env"))
 
-print(env("DJANGO_DEBUG"))
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
