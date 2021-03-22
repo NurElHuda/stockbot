@@ -24,3 +24,4 @@ django-guardian==2.3.0
 django-lifecycle==0.8.0
 django-cors-headers==3.6.0
 mysqlclient==2.0.1 # https://github.com/PyMySQL/mysqlclient-python
+django-environ==0.4.5

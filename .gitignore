@@ -280,7 +280,7 @@ pip-selfcheck.json
 ### Project template
 
 MailHog
-class_manager/media/
+app_src/media/
 
 .pytest_cache/
 
