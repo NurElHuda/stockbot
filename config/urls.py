@@ -14,7 +14,7 @@ from rest_framework_simplejwt.views import (
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Class Manager API",
+        title="StockBot API",
         default_version="v1",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="classmanager.contact@gmail.com"),
