@@ -1,4 +1,4 @@
-from .center_serializers import CenterLogoSerializer, CenterSerializer
+from .center_serializers import ProductSerializer
 from .users_serializers.admin_serializers import AdminSerializer
 from .users_serializers.agent_serializers import AgentSerializer
 from .users_serializers.manager_serializers import ManagerSerializer

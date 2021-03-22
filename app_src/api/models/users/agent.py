@@ -19,26 +19,11 @@ class Agent(LifecycleModelMixin, models.Model):
         related_name="agent",
     )
 
-    center = models.ForeignKey(
-        "api.Center",
-        on_delete=models.CASCADE,
-        related_name="agents",
-        null=True,
-        default=None,
-    )
-
     class Meta:
         ordering = ["-created_at"]
 
     def save(self, *args, **kwargs):
         if self.id:
             self.updated_at = timezone.now()
-        return super(Agent, self).save(*args, **kwargs)
+        return super(self.__class__, self).save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        return reverse("api:agent-detail", kwargs={"id": self.pk})
-
-    @hook(AFTER_CREATE)
-    def set_user_type(self):
-        self.user.is_agent = True
-        self.user.save()

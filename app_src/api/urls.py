@@ -14,21 +14,11 @@ urlpatterns = [
         name="user-detail-picture",
     ),
     path("admins/", view=views.AdminList.as_view(), name="admin-list"),
-    path("centers/", view=views.CenterList.as_view(), name="center-list"),
+    path("products/", view=views.ProductList.as_view(), name="product-list"),
     path(
-        "centers/<int:center_id>/",
-        view=views.CenterDetail.as_view(),
-        name="center-detail",
-    ),
-    path(
-        "centers/<int:center_id>/logo/",
-        view=views.CenterLogo.as_view(),
-        name="center-logo",
-    ),
-    path(
-        "centers/<int:center_id>/managers/",
-        view=views.CenterManagerList.as_view(),
-        name="center-manager-list",
+        "products/<int:product_id>/",
+        view=views.ProductDetail.as_view(),
+        name="product-detail",
     ),
     path("managers/", view=views.ManagerList.as_view(), name="manager-list"),
     path(

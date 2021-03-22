@@ -1,9 +1,6 @@
-from .center_views import (
-    CenterAgentList,
-    CenterDetail,
-    CenterList,
-    CenterLogo,
-    CenterManagerList,
+from .product_views import (
+    ProductList,
+    ProductDetail
 )
 from .other_view import PullAndUpdate, Reset
 from .users_views.admin_views import AdminList

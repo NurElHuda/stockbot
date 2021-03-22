@@ -21,14 +21,6 @@ class Manager(LifecycleModelMixin, models.Model):
         related_name="manager",
     )
 
-    center = models.ForeignKey(
-        "api.Center",
-        on_delete=models.CASCADE,
-        related_name="managers",
-        null=True,
-        default=None,
-    )
-
     status = models.CharField(_("Status"), max_length=250, default="PENDING")
 
     class Meta:
@@ -37,12 +29,4 @@ class Manager(LifecycleModelMixin, models.Model):
     def save(self, *args, **kwargs):
         if self.id:
             self.updated_at = timezone.now()
-        return super(Manager, self).save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse("api:manager-detail", kwargs={"id": self.pk})
-
-    @hook(AFTER_CREATE)
-    def set_user_type(self):
-        self.user.is_manager = True
-        self.user.save()
+        return super(self.__class__, self).save(*args, **kwargs)

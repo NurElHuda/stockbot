@@ -6,7 +6,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
-from app_src.api.models import Admin, Agent, Center, Manager, User
+from app_src.api.models import Admin, Agent, Manager, User
 
 
 class Reset(generics.DestroyAPIView):
@@ -17,7 +17,6 @@ class Reset(generics.DestroyAPIView):
 
             User.objects.all().delete()
             Admin.objects.all().delete()
-            Center.objects.all().delete()
             Manager.objects.all().delete()
             Agent.objects.all().delete()
 

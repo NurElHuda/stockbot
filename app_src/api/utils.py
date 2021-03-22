@@ -1,3 +1,5 @@
 def update_object(instance, validated_data):
-    instance.__class__.objects.filter(pk=instance.pk).update(**validated_data)
-    return instance.__class__.objects.get(pk=instance.pk)
+    for key, value in validated_data.items():
+        setattr(instance, key, value)
+    instance.save()
+    return instance

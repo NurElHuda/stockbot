@@ -1,21 +1,17 @@
 from rest_framework import serializers
 
-from app_src.api.models import Center, Manager, User, create_user, update_user
+from app_src.api.models import Manager, User, create_user, update_user
 from app_src.api.serializers.users_serializers.user_serializers import UserSerializer
-from app_src.api.serializers import CenterSerializer
 from app_src.api.utils import update_object
 
 
 class ManagerSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source="pk", read_only=True)
     user = UserSerializer()
-    center = serializers.PrimaryKeyRelatedField(queryset=Center.objects.all())
-    center_verbose = CenterSerializer(source="center", required=False, read_only=True)
 
     class Meta:
         model = Manager
-        fields = ["id", "user", "center", "center_verbose", "status"]
-        read_only_fields = ["center_verbose"]
+        fields = ["id", "user", "status"]
 
     def create(self, validated_data):
         user = create_user(validated_data.pop("user"))

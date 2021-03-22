@@ -18,16 +18,10 @@ class User(AbstractUser, LifecycleModelMixin):
     USER_TYPE = [
         ("Admin", "Admin"),
         ("Manager", "Manager"),
-        ("Staff", "Staff"),
-        ("Teacher", "Teacher"),
-        ("Student", "Student"),
+        ("Agent", "Agent"),
     ]
 
-    name = models.CharField(_("Name"), blank=True, max_length=255, default="")
-    family_name = models.CharField(
-        _("Family name"), blank=True, max_length=255, default=""
-    )
-    gender = models.CharField(_("Gender"), blank=True, max_length=1, default="")
+    name = models.CharField(blank=True, max_length=255, default="")
     email = models.EmailField(max_length=255, unique=True)
     birthday = DateField(default=None, null=True, blank=True)
     picture = ProcessedImageField(
@@ -39,30 +33,23 @@ class User(AbstractUser, LifecycleModelMixin):
         null=True,
     )
 
-    is_admin = models.BooleanField(_("IsAdmin"), default=False)
-    is_manager = models.BooleanField(_("IsManager"), default=False)
-    is_agent = models.BooleanField(_("IsAgent"), default=False)
-    is_teacher = models.BooleanField(_("IsTeacher"), default=False)
-    is_student = models.BooleanField(_("IsStudent"), default=False)
+    is_admin = models.BooleanField(default=False)
+    is_manager = models.BooleanField(default=False)
+    is_agent = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     class Meta:
         ordering = ["-created_at"]
-        verbose_name = "User"
-        verbose_name_plural = "Users"
 
     def save(self, *args, **kwargs):
         if self.id:
             self.updated_at = timezone.now()
-        return super(User, self).save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse("api:user-detail", kwargs={"id": self.pk})
+        return super(self.__class__, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name + " " + self.family_name
+        return self.pk + " | " + self.name
 
     @property
     def user_type(self):
@@ -70,10 +57,8 @@ class User(AbstractUser, LifecycleModelMixin):
             return "admin"
         elif self.is_manager:
             return "manager"
-        elif self.is_teacher:
-            return "teacher"
-        elif self.is_student:
-            return "student"
+        elif self.is_manager:
+            return "agent"
         else:
             return "unknown"
 
@@ -81,17 +66,19 @@ class User(AbstractUser, LifecycleModelMixin):
 def create_user(user_validated_data):
     password = user_validated_data.pop("password", False)
     user = User.objects.create(**user_validated_data)
-    user.set_password(password)
+
+    if password:
+        user.set_password(password)
     user.save()
     return user
 
 
 def update_user(user, validated_data):
-    user.name = validated_data.get("name", user.name)
-    user.email = validated_data.get("email", user.email)
     if validated_data.get("password", False):
         user.set_password(validated_data.get("password"))
-    user.username = validated_data.get("username", user.username)
-    user.birthday = validated_data.get("birthday", user.birthday)
+
+    for key, value in validated_data.items():
+        setattr(user, key, value)
+
     user.save()
     return user
