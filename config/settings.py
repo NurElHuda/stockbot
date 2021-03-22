@@ -4,17 +4,21 @@ from pathlib import Path
 
 import environ
 
-ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
+ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent
 # app_src/
 APPS_DIR = ROOT_DIR / "app_src"
 env = environ.Env()
 env.read_env(str(ROOT_DIR / ".env"))
 
+print(env("DJANGO_DEBUG"))
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = env.bool("DJANGO_DEBUG", False)
 LOCAL = env.bool("DJANGO_LOCAL", False)
+SECRET_KEY = env(
+    "DJANGO_SECRET_KEY", default="*xn-sp9vpz^d$njnjzlkcmxep7#q3e6y4r9dj7w@^cp(0r9nc%"
+)
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "*"]
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -38,44 +42,18 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-if os.getenv("GAE_APPLICATION", None):
-    # Running on production App Engine, so connect to Google Cloud SQL using
-    # the unix socket at /cloudsql/<your-cloudsql-connection string>
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "HOST": "/cloudsql/[YOUR-CONNECTION-NAME]",
-            "NAME": env("GCloud_DB_NAME"),
-            "USER": env("GCloud_DB_USER"),
-            "PASSWORD": env("GCloud_DB_PASSWORD"),
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "HOST": env("DB_HOST"),  # Or an IP Address that your DB is hosted on
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "NAME": env("DB_NAME"),
+        "PORT": "3306",
+        "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'",},
+        "ATOMIC_REQUESTS": True,
     }
-elif env("GCloud", default=False):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": env("GCloud_DB_NAME"),
-            "USER": env("GCloud_DB_USER"),
-            "PASSWORD": env("GCloud_DB_PASSWORD"),
-            "HOST": env("GCloud_DB_HOST"),  # Or an IP Address that your DB is hosted on
-            "PORT": "3306",
-            "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'",},
-        }
-    }
-    DATABASES["default"]["ATOMIC_REQUESTS"] = True
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": env("DB_NAME"),
-            "USER": env("DB_USER"),
-            "PASSWORD": env("DB_PASSWORD"),
-            "HOST": env("DB_HOST"),  # Or an IP Address that your DB is hosted on
-            "PORT": "3306",
-            "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'",},
-        }
-    }
-    DATABASES["default"]["ATOMIC_REQUESTS"] = True
+}
 
 # URLS
 # ------------------------------------------------------------------------------
