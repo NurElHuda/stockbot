@@ -8,11 +8,6 @@ urlpatterns = [
     path("users/", view=views.UserList.as_view(), name="user-list"),
     path("users/current/", view=views.UserCurrent.as_view(), name="user-current"),
     path("users/<int:user_id>/", view=views.UserDetail.as_view(), name="user-detail"),
-    path(
-        "users/<int:user_id>/picture/",
-        view=views.UserPicture.as_view(),
-        name="user-detail-picture",
-    ),
     path("admins/", view=views.AdminList.as_view(), name="admin-list"),
     path("products/", view=views.ProductList.as_view(), name="product-list"),
     path(

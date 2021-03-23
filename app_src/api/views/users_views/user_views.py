@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAdminUser
 
 from app_src.api.models import User
 from app_src.api.permissions import IsAdminUser, IsAgentUser, IsManagerUser
-from app_src.api.serializers import UserPictureSerializer, UserSerializer
+from app_src.api.serializers import UserSerializer
 
 
 class UserList(generics.ListAPIView):
@@ -41,16 +41,16 @@ class UserCurrent(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
 
-class UserPicture(generics.RetrieveUpdateAPIView):
-    permission_classes = (Or(Or(IsAgentUser, IsManagerUser), IsAdminUser),)
-    lookup_url_kwarg = "user_id"
+# class UserPicture(generics.RetrieveUpdateAPIView):
+#     permission_classes = (Or(Or(IsAgentUser, IsManagerUser), IsAdminUser),)
+#     lookup_url_kwarg = "user_id"
 
-    def get_object(self):
-        try:
-            user = User.objects.get(pk=self.kwargs["user_id"])
-        except User.DoesNotExist:
-            raise exceptions.NotFound(detail="User not found")
-        return user
+#     def get_object(self):
+#         try:
+#             user = User.objects.get(pk=self.kwargs["user_id"])
+#         except User.DoesNotExist:
+#             raise exceptions.NotFound(detail="User not found")
+#         return user
 
-    serializer_class = UserPictureSerializer
-    parser_classes = [MultiPartParser, FileUploadParser]
+#     serializer_class = UserPictureSerializer
+#     parser_classes = [MultiPartParser, FileUploadParser]

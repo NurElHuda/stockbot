@@ -1,9 +1,6 @@
-from .product_views import (
-    ProductList,
-    ProductDetail
-)
+from .product_views import ProductList, ProductDetail
 from .other_view import PullAndUpdate, Reset
 from .users_views.admin_views import AdminList
 from .users_views.agent_views import AgentDetail, AgentList
 from .users_views.manager_views import ManagerDetail, ManagerList
-from .users_views.user_views import UserCurrent, UserDetail, UserList, UserPicture
+from .users_views.user_views import UserCurrent, UserDetail, UserList
